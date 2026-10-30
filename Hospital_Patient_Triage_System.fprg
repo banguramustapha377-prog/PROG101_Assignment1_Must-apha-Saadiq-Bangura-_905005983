@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<flowgorithm fileversion="3.0">
+    <attributes>
+        <attribute name="name" value="Hospital Patient Triage System"/>
+        <attribute name="authors" value="Student"/>
+        <attribute name="about" value=""/>
+        <attribute name="saved" value="2026-10-30 12:00:00 PM"/>
+        <attribute name="created" value="U3R1ZGVudDtQQzsyMDI2LTEwLTMwOzEyOjAwOjAwIFBNOzEwMDA="/>
+        <attribute name="edited" value="U3R1ZGVudDtQQzsyMDI2LTEwLTMwOzEyOjAwOjAwIFBNOzEwMDA="/>
+    </attributes>
+    <function name="Main" type="None" variable="">
+        <parameters/>
+        <body>
+            <declare name="patient_ref" type="String" array="False" size=""/>
+            <declare name="condition" type="String" array="False" size=""/>
+            <declare name="days" type="Integer" array="False" size=""/>
+            <declare name="symptoms" type="Integer" array="False" size=""/>
+            <declare name="vulnerable" type="String" array="False" size=""/>
+            <declare name="score" type="Integer" array="False" size=""/>
+            <declare name="level" type="String" array="False" size=""/>
+            <declare name="choice" type="String" array="False" size=""/>
+            <assign variable="choice" expression="&quot;YES&quot;"/>
+            <while expression="choice = &quot;YES&quot;">
+                <body>
+                    <input variable="patient_ref"/>
+                    <input variable="condition"/>
+                    <input variable="days"/>
+                    <input variable="symptoms"/>
+                    <input variable="vulnerable"/>
+                    <if expression="patient_ref &lt;&gt; &quot;&quot; and days &gt;= 0 and symptoms &gt;= 0 and (condition = &quot;CRITICAL&quot; or condition = &quot;URGENT&quot; or condition = &quot;MODERATE&quot; or condition = &quot;ROUTINE&quot;)">
+                        <then>
+                            <if expression="condition = &quot;CRITICAL&quot;">
+                                <then>
+                                    <assign variable="score" expression="40"/>
+                                </then>
+                                <else>
+                                    <if expression="condition = &quot;URGENT&quot;">
+                                        <then>
+                                            <assign variable="score" expression="35"/>
+                                        </then>
+                                        <else>
+                                            <if expression="condition = &quot;MODERATE&quot;">
+                                                <then>
+                                                    <assign variable="score" expression="25"/>
+                                                </then>
+                                                <else>
+                                                    <assign variable="score" expression="15"/>
+                                                </else>
+                                            </if>
+                                        </else>
+                                    </if>
+                                </else>
+                            </if>
+                            <if expression="vulnerable = &quot;YES&quot;">
+                                <then>
+                                    <assign variable="score" expression="score + 20"/>
+                                </then>
+                                <else/>
+                            </if>
+                            <if expression="days &gt;= 7">
+                                <then>
+                                    <assign variable="score" expression="score + 10"/>
+                                </then>
+                                <else/>
+                            </if>
+                            <if expression="symptoms &gt;= 5">
+                                <then>
+                                    <assign variable="score" expression="score + 5"/>
+                                </then>
+                                <else/>
+                            </if>
+                            <if expression="score &gt;= 60">
+                                <then>
+                                    <assign variable="level" expression="&quot;HIGH&quot;"/>
+                                </then>
+                                <else>
+                                    <if expression="score &gt;= 35">
+                                        <then>
+                                            <assign variable="level" expression="&quot;MEDIUM&quot;"/>
+                                        </then>
+                                        <else>
+                                            <assign variable="level" expression="&quot;LOW&quot;"/>
+                                        </else>
+                                    </if>
+                                </else>
+                            </if>
+                            <output expression="&quot;Patient Reference: &quot; &amp; patient_ref" newline="True"/>
+                            <output expression="&quot;Condition: &quot; &amp; condition" newline="True"/>
+                            <output expression="&quot;Priority Score: &quot; &amp; score" newline="True"/>
+                            <output expression="&quot;Priority Level: &quot; &amp; level" newline="True"/>
+                        </then>
+                        <else>
+                            <output expression="&quot;Invalid patient information&quot;" newline="True"/>
+                        </else>
+                    </if>
+                    <output expression="&quot;Do you want to enter another patient? YES or NO&quot;" newline="True"/>
+                    <input variable="choice"/>
+                </body>
+            </while>
+            <output expression="&quot;Session completed&quot;" newline="True"/>
+        </body>
+    </function>
+</flowgorithm>
