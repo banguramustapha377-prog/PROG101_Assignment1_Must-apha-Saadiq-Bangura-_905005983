@@ -1,0 +1,83 @@
+HOSPITAL PATIENT TRIAGE SYSTEM - PSEUDOCODE
+
+BEGIN
+    DECLARE patientref, condition, vulnerable, level, choice AS String
+    DECLARE days, symptoms, score, total AS Integer
+
+    SET choice TO "YES"
+    SET total TO 0
+
+    WHILE choice = "YES"
+
+        // Collect patient information
+        DISPLAY "Enter patient reference"
+        INPUT patientref
+        DISPLAY "Condition (CRITICAL/URGENT/MODERATE/ROUTINE)"
+        INPUT condition
+        DISPLAY "Days since symptoms began"
+        INPUT days
+        DISPLAY "Number of reported symptoms"
+        INPUT symptoms
+        DISPLAY "Child under 5, pregnant woman or elderly? (YES/NO)"
+        INPUT vulnerable
+
+        // Validate the information
+        IF patientref <> ""
+           AND days >= 0
+           AND symptoms >= 0
+           AND condition IS "CRITICAL", "URGENT", "MODERATE" OR "ROUTINE" THEN
+
+            // Base score from the condition
+            SET score TO 0
+            IF condition = "CRITICAL" THEN
+                SET score TO 40
+            ELSE IF condition = "URGENT" THEN
+                SET score TO 35
+            ELSE IF condition = "MODERATE" THEN
+                SET score TO 25
+            ELSE
+                SET score TO 15
+            END IF
+
+            // Bonus scores
+            IF vulnerable = "YES" THEN
+                SET score TO score + 20
+            END IF
+            IF days >= 7 THEN
+                SET score TO score + 10
+            END IF
+            IF symptoms >= 5 THEN
+                SET score TO score + 5
+            END IF
+
+            // Classify the priority level
+            IF score >= 60 THEN
+                SET level TO "HIGH"
+            ELSE IF score >= 35 THEN
+                SET level TO "MEDIUM"
+            ELSE
+                SET level TO "LOW"
+            END IF
+
+            // Display the results
+            DISPLAY "Patient Reference: " & patientref
+            DISPLAY "Condition: " & condition
+            DISPLAY "Priority Score: " & score
+            DISPLAY "Priority Level: " & level
+
+            // Count the valid patient
+            SET total TO total + 1
+
+        ELSE
+            DISPLAY "Invalid patient information"
+        END IF
+
+        // Ask whether to continue
+        DISPLAY "Do you want to enter another patient? YES or NO"
+        INPUT choice
+
+    END WHILE
+
+    DISPLAY "Total patients recorded: " & total
+    DISPLAY "Session completed"
+END
